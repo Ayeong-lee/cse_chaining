@@ -91,5 +91,6 @@ router.delete('/:no', authMiddleware, function(req, res, next) {
 });
 //HTTP DELETE 메서드로 게시판 번호(no)가 포함되어서 요청(Request)이 들어오면 게시판 배열에서 게시판 번호로 검색하여 게시판 객체를 삭제합니다.
 //게시물 삭제에서 등록된 게시물 작성자(writer)와 인증된 로그인 사용자의 아이디(req.tokenInfo.memberId)를 비교하여 처리되게 수정합니다. 동일하지 않으면 상태 코드를 403으로 하고 처리를 중지시킵니다.
+
 module.exports = router;
 
