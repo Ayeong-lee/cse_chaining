@@ -18,6 +18,21 @@ const routes = [
         component: Board_Rest
     },
     {
+        path: '/BoardView',
+        name: 'BoardView',
+        component: () => import('../views/board/Board_RestView.vue')
+    },
+    {
+        path: '/boardRestWrite',
+        name: 'boardRestWrite',
+        component: () => import('../views/board/Board_RestWrite.vue')
+    },
+    {
+        path: '/boardRestedit',
+        name: 'BoardRestEdit',
+        component: () => import('../views/board/Board_RestEdit.vue')
+    },
+    {
         path: '/login',
         name: 'LoginVue',
         component: LoginVue
