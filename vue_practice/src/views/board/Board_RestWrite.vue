@@ -19,6 +19,13 @@
         <td><textarea rows="10" placeholder="내용을 입력하세요." ref="contentTextarea" v-model.trim="content"></textarea></td>
       </tr>
       </tbody>
+      <div class="custom-file">
+        <input id="customFile" type="file" @change="readInputFile"/>
+      </div>
+      <br>
+      <div id="imagePreview">
+        <img id="img"/>
+      </div>
     </table>
     <div class="buttons">
       <div class="right">
@@ -28,7 +35,27 @@
     </div>
   </div>
 </template>
-
+<script setup>
+import $ from 'jquery';
+const readInputFile = (e) => {// 미리보기 기능구현
+  $('#imagePreview').empty();
+  var files = e.target.files;
+  var fileArr = Array.prototype.slice.call(files);
+  console.log(fileArr);
+  fileArr.forEach(function(f){
+    if(!f.type.match("image/.*")){
+      alert("이미지 확장자만 업로드 가능합니다.");
+      return;
+    }
+    var reader = new FileReader();
+    reader.onload = function(e){
+      var html = `<img src=${e.target.result} />`;
+      $('#imagePreview').append(html);
+    };
+    reader.readAsDataURL(f);
+  })
+}
+</script>
 <script>
 import axios from "axios";
 export default {
@@ -37,13 +64,64 @@ export default {
     return {
       writer: '',
       subject: '',
-      content: ''
+      content: '',
+      uploadimageurl: [],    // 업로드한 이미지의 미리보기 기능을 위해 url 저장하는 객체
+      imagecnt: 0,        // 업로드한 이미지 개수 => 제출버튼 클릭시 back서버와 axios 통신하게 되는데, 이 때 이 값도 넘겨줌
     };
   },
   mounted() {
     this.$refs.writerInput.focus();
   },
   methods: {
+    // 수정된 onSubmitForm => imagecnt도 같이 전송해줘야 함
+    onSubmitForm(){
+      if(this.$refs.form.validate()) {        // 위에 써준 rules를 만족하면 실행
+        axios({
+          url: "http://127.0.0.1:52273/content/write/",
+          method: "POST",
+          data: {
+            boardnum: this.$route.params.id,
+            writer: this.writer,
+            title: this.title,
+            text: this.text,
+            imagecnt: this.imagecnt
+          },
+        }).then(res => {
+          alert(res.data.message);
+          window.history.back();
+        }).catch(err => {
+          alert(err);
+        });
+      }
+    },
+    // 추가된 method
+    onImageChange(file) {    // v-file-input 변경시
+      if (!file) {
+        return;
+      }
+      const formData = new FormData();    // 파일을 전송할때는 FormData 형식으로 전송
+      this.uploadimageurl = [];        // uploadimageurl은 미리보기용으로 사용
+      file.forEach((item) => {
+        formData.append('filelist', item)    // formData의 key: 'filelist', value: 이미지
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.uploadimageurl.push({url: e.target.result});
+          // e.target.result를 통해 이미지 url을 가져와서 uploadimageurl에 저장
+        };
+        reader.readAsDataURL(item);
+      });
+      axios({
+        url: "http://127.0.0.1:52273/content/imagesave/",    // 이미지 저장을 위해 back서버와 통신
+        method: "POST",
+        headers: {'Content-Type': 'multipart/form-data'},    // 이걸 써줘야 formdata 형식 전송가능
+        data: formData,
+      }).then(res => {
+        console.log(res.data.message);
+        this.imagecnt = file.length;    // 이미지 개수 저장
+      }).catch(err => {
+        alert(err);
+      });
+    },
     async boardSaveClick() {
       let boardItem = {writer: this.writer, subject: this.subject, content: this.content};
       axios.post("http://localhost:9000/boards", boardItem).then((res) => {
