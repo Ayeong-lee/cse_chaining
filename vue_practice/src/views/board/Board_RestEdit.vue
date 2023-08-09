@@ -69,7 +69,7 @@ export default {
           console.log(res.data.success);
           if (res.data.success == true) {
             alert("수정되었습니다.");
-            this.$router.push({name : 'BoardList'});
+            this.$router.push({name : 'BoardRest'});
           } else {
             alert("수정되지 않았습니다.");
           }

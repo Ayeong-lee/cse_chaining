@@ -71,11 +71,11 @@ export default {
       var result = confirm("삭제하시겠습니까?");
       if (result) {
         try {
-          let res = await this.axios.delete("http://localhost:9000/boards/" + this.$route.query.boardNo);
+          let res = await axios.delete("http://localhost:9000/boards/" + this.$route.query.boardNo);
           console.log(res.data.success);
           if (res.data.success == true) {
             alert("삭제되었습니다.");
-            this.$router.push({name : 'BoardList'});
+            this.$router.push({name : 'BoardRest'});
           } else {
             alert("삭제되지 않았습니다.");
           }
