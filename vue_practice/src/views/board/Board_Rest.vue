@@ -33,7 +33,8 @@ export default {
   name : "Board_Rest",
   data() { //변수생성
     return {
-      boardList : []
+      boardList : [],
+      boardPagination : {}
     }
   },
   mounted() {
