@@ -6,3 +6,5 @@
 [Script 파일 링크](vue_practice/init_serve_Script.bat)
 ## Vue+node.js run script
 [Script 파일 링크](Integreted/vue_test/Init_serve_Script.bat)
+## Vue+node.js+REST API(axios) run script
+[Script 파일 링크](vue_practice/init_script.bat)
