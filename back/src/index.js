@@ -1,17 +1,21 @@
 require('dotenv').config()
 
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const port = 9000;
 
 const { PORT, MONGO_URI } = process.env
 
+app.use(cors({
+    origin: '*', // 모든 출처 허용 옵션. true 를 써도 된다.
+}));
 app.use('/members', require('./memberapi'));
 //app.use('/boards', require('./authmiddleware'));
 app.use('/boards', require('./boardapi'));
 app.use(express.static('public'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: false }))
 
 
 

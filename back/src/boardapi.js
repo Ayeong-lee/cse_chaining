@@ -337,6 +337,18 @@ router.post('/', function(req, res, next) {
 	res.json({success:true});
 });
 
+
+router.get('/:no', function(req, res, next) {
+	console.log("REST API Get Method - Read " + req.params.no);
+	var boardItem = boardList.find(object => object.no == req.params.no);
+	if (boardItem != null) {
+		res.json({success:true, data:boardItem});
+	} else {
+		res.status(404);
+		res.json({success:false, errormessage:'not found'});
+	}
+});
+
 router.put('/:no', function(req, res, next) {
 	console.log("REST API Put Method - Update " + req.params.no);
 	var boardItem = boardList.find(object => object.no == req.params.no);
@@ -369,6 +381,7 @@ router.delete('/:no', function(req, res, next) {
 		res.json({success:false, errormessage:'not found'});
 	}
 });
+
 
 module.exports = router;
 
