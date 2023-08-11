@@ -123,12 +123,6 @@ export default {
       });
     },
     async boardSaveClick() {
-      let boardItem = {writer: this.writer, subject: this.subject, content: this.content};
-      axios.post("http://localhost:9000/boards", boardItem).then((res) => {
-        console.log(res);
-      }, (err) => {
-        console.log(err);
-      });
       if (this.writer == "") {
         alert("작성자를 입력하세요.");
         this.$refs.writerInput.focus();
