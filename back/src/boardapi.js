@@ -1,6 +1,8 @@
 const express  = require('express');
+var app = express();
 const router = express.Router();
 const dateFormat = require('dateformat');
+app.use(express.json());
 const authMiddleware = require('./authmiddleware');
 
 let boardList = [

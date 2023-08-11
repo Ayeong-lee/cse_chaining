@@ -4,6 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const port = 9000;
+app.use(express.json());
 
 const { PORT, MONGO_URI } = process.env
 
@@ -29,8 +30,6 @@ app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Headers', 'content-type');
     next();
 });
-
-
 
 
 
