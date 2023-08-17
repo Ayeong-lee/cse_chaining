@@ -52,6 +52,7 @@ export default {
     doConfirm() {
       if(isNaN(this.amount)){
         alert("형식이 맞지 않습니다 \n형식에 맞게 숫자를 입력해주세요");
+        return;
       } else if (this.amount < this.leastamount) {
         alert("최소 금액은 "+this.leastamount+"입니다.");
         return;
