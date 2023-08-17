@@ -5,6 +5,7 @@ import PageHome from '@/views/PageHome.vue'
 // import BoardWrite from '@/views/board/BoardWrite.vue'
 import Board_Rest from "@/views/board/Board_Rest.vue"
 import Login_Rest from '@/views/Login_rest.vue'
+import Account from '@/views/account.vue'
 import store from '../store';
 
 const routes = [
@@ -14,13 +15,18 @@ const routes = [
         component: PageHome
     },
     {
+        path: '/account',
+        name: 'Account',
+        component: Account
+    },
+    {
         path: '/login',
         name: 'login_rest',
         component: Login_Rest
     },
     {
-        path: '/boardRest',
-        name: 'BoardRest',
+        path: '/BoardRest',
+        name: 'Board',
         component: () => import('../views/Board.vue'),
         children: [
             {
