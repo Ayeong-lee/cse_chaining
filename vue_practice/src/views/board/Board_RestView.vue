@@ -1,6 +1,6 @@
 <template>
   <div class="boardview">
-    <h1>This is an board view page</h1>
+    <h3>게시글</h3>
     <table>
       <colgroup>
         <col style="width:18.5%">
@@ -23,11 +23,16 @@
         <th scope="row">작성일자</th>
         <td>{{boardItem.writedate}}</td>
       </tr>
+      <tr>
+        <th scope="row">최소금액</th>
+<!--        <td>{{boardItem.money}}</td>-->
+      </tr>
       </tbody>
     </table>
   </div>
   <div class="buttons">
     <div class="right">
+      <router-link :to="{name : 'Account', query : {boardNo: boardItem.no}}" class="button blue"><span>기부하기</span></router-link>
       <button class="button" @click="boardListClick">목록</button>
     </div>
     <div class="left">
@@ -154,6 +159,20 @@ export default {
   left: 0;
 }
 
+.buttons > div.right > .button.blue {
+  display: inline-block;
+  overflow: visible;
+  cursor: pointer;
+  width: 125px;
+  height: 32px;
+  margin: 0 2px;
+  padding: 0 15px;
+  line-height: 32px;
+  font-size: 14px;
+  border: 1px solid #dfdfdf;
+  background: #fff;
+  border-radius: 10px;
+}
 .buttons > div > button {
   overflow: visible;
   cursor: pointer;

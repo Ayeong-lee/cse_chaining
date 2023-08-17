@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>This is an board header</h1>
+    <h2>기부 게시판</h2>
     <router-view></router-view>
   </div>
 </template>
