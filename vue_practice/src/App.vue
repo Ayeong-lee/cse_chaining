@@ -3,7 +3,7 @@
     <div class="topline">
       <div class="headmenu">
         <div v-if="isLogin">
-          {{ this.memberid }}님, 안녕하세요.
+          {{ this.$store.state.loginStore.memberId }}님, 안녕하세요.
           <span @click="Logout()">로그아웃</span>
         </div>
         <div v-else>
@@ -23,11 +23,6 @@ import PageFooter from '@/components/PageFooter'
 
 export default {
   name: 'App',
-  data : function() {
-    return {
-      memberid : this.$store.state.loginStore.memberId
-    };
-  },
   methods: {
     Logout() {
       this.$store.dispatch("loginStore/doLogout");
