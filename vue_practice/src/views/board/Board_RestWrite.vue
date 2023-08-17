@@ -8,7 +8,7 @@
       <tbody>
       <tr>
         <th scope="row">작성자</th>
-        <td><input type="text" placeholder="아이디를 입력하세요." ref="writerInput" v-model.trim="writer"></td>
+        <td>{{ writer }}</td>
       </tr>
       <tr>
         <th scope="row">제목</th>
@@ -62,16 +62,16 @@ export default {
   name: "Board_RestWrite",
   data: function () {
     return {
-      writer: '',
+      writer : this.$store.state.loginStore.memberId,
       subject: '',
       content: '',
       uploadimageurl: [],    // 업로드한 이미지의 미리보기 기능을 위해 url 저장하는 객체
       imagecnt: 0,        // 업로드한 이미지 개수 => 제출버튼 클릭시 back서버와 axios 통신하게 되는데, 이 때 이 값도 넘겨줌
     };
   },
-  mounted() {
-    this.$refs.writerInput.focus();
-  },
+  // mounted() {
+  //   this.$refs.writerInput.focus();
+  // },
   methods: {
     // 수정된 onSubmitForm => imagecnt도 같이 전송해줘야 함
     onSubmitForm(){
@@ -123,11 +123,7 @@ export default {
       });
     },
     async boardSaveClick() {
-      if (this.writer == "") {
-        alert("작성자를 입력하세요.");
-        this.$refs.writerInput.focus();
-        return;
-      } else if (this.subject == "") {
+      if (this.subject == "") {
         alert("제목을 입력하세요.");
         this.$refs.subjectInput.focus();
         return;
@@ -138,7 +134,7 @@ export default {
       }
       var result = confirm("등록하시겠습니까?");
       if (result) {
-        let boardItem = { writer : this.writer, subject : this.subject, content : this.content };
+        let boardItem = { subject : this.subject, content : this.content };
         axios.post("http://localhost:9000/boards", boardItem).then((res)=>{
           console.log(res);
           if (res.data.success == true) {

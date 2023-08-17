@@ -63,7 +63,7 @@ export default {
       }
       var result = confirm("수정하시겠습니까?");
       if (result) {
-        let boardItem = { writer : this.boardItem.writer, subject : this.boardItem.subject, content : this.boardItem.content };
+        let boardItem = { subject : this.boardItem.subject, content : this.boardItem.content };
         try {
           let res = await axios.put("http://localhost:9000/boards/" + this.$route.query.boardNo, boardItem);
           console.log(res.data.success);

@@ -1,7 +1,20 @@
 <template>
-    <PageHeader/> <!-- 헤더 컴포넌트 -->
-    <router-view/>  <!-- 페이지 이동이 표시될 곳 -->
-    <PageFooter/> <!-- 푸터 컴포넌트 -->
+  <div class="header">
+    <div class="topline">
+      <div class="headmenu">
+        <div v-if="isLogin">
+          {{ memberid }}님, 안녕하세요.
+          <span @click="Logout()">로그아웃</span>
+        </div>
+        <div v-else>
+          <router-link :to="{ name: 'login_rest', query: { returnUrl: '/' }}" v-show="isLogin == false">로그인</router-link>
+        </div>
+      </div>
+    </div>
+  </div>
+  <PageHeader/> <!-- 헤더 컴포넌트 -->
+  <router-view/>  <!-- 페이지 이동이 표시될 곳 -->
+  <PageFooter/> <!-- 푸터 컴포넌트 -->
 </template>
 
 <script>
@@ -9,11 +22,27 @@ import PageHeader from '@/components/PageHeader'
 import PageFooter from '@/components/PageFooter'
 
 export default {
-    name: 'App',
-    components: {
-        PageFooter,
-        PageHeader
+  name: 'App',
+  data : function() {
+    return {
+      memberid : this.$store.state.loginStore.memberId
+    };
+  },
+  methods: {
+    Logout() {
+      this.$store.dispatch("loginStore/doLogout");
+      this.$router.push('/');
     }
+  },
+  computed: {
+    isLogin() {
+      return this.$store.getters['loginStore/isLogin'];
+    }
+  },
+  components: {
+    PageFooter,
+    PageHeader
+  }
 }
 </script>
 
@@ -37,5 +66,34 @@ export default {
 
 #nav a.router-link-exact-active {
     color: #42b983;
+}
+
+.header {
+  position: relative;
+  background-color: #46B6A0;
+}
+
+.header .topline {
+  position: relative;
+  height: 30px;
+  margin: 0 10px;
+}
+
+.header .topline .headmenu {
+  position: absolute;
+  right: 0;
+  top: 4px;
+}
+
+.header .topline .headmenu a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.header .topline .headmenu span {
+  font-weight: bold;
+  color: #2c3e50;
+  cursor: pointer;
+  text-decoration: underline;
 }
 </style>

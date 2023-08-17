@@ -1,10 +1,11 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import {createRouter, createWebHistory} from 'vue-router'
 import PageHome from '@/views/PageHome.vue'
-import BoardList from '@/views/board/BoardList.vue'
-import BoardDetail from '@/views/board/BoardDetail.vue'
-import BoardWrite from '@/views/board/BoardWrite.vue'
-import LoginVue from '@/views/Login/LoginPage.vue'
-import Board_Rest from "@/views/board/Board_Rest.vue";
+// import BoardList from '@/views/board/BoardList.vue'
+// import BoardDetail from '@/views/board/BoardDetail.vue'
+// import BoardWrite from '@/views/board/BoardWrite.vue'
+import Board_Rest from "@/views/board/Board_Rest.vue"
+import Login_Rest from '@/views/Login_rest.vue'
+import store from '../store';
 
 const routes = [
     {
@@ -13,29 +14,38 @@ const routes = [
         component: PageHome
     },
     {
+        path: '/login',
+        name: 'login_rest',
+        component: Login_Rest
+    },
+    {
         path: '/boardRest',
         name: 'BoardRest',
-        component: Board_Rest
-    },
-    {
-        path: '/BoardView',
-        name: 'BoardView',
-        component: () => import('../views/board/Board_RestView.vue')
-    },
-    {
-        path: '/boardRestWrite',
-        name: 'boardRestWrite',
-        component: () => import('../views/board/Board_RestWrite.vue')
-    },
-    {
-        path: '/boardRestedit',
-        name: 'BoardRestEdit',
-        component: () => import('../views/board/Board_RestEdit.vue')
-    },
-    {
-        path: '/login',
-        name: 'LoginVue',
-        component: LoginVue
+        component: () => import('../views/Board.vue'),
+        children: [
+            {
+                path: '',
+                name: 'BoardRest',
+                component: Board_Rest,
+            },
+            {
+                path: '/BoardView',
+                name: 'BoardView',
+                component: () => import('../views/board/Board_RestView.vue'),
+            },
+            {
+                path: '/boardRestWrite',
+                name: 'boardRestWrite',
+                component: () => import('../views/board/Board_RestWrite.vue'),
+                meta: { requireLogin: true }
+            },
+            {
+                path: '/boardRestedit',
+                name: 'BoardRestEdit',
+                component: () => import('../views/board/Board_RestEdit.vue'),
+                meta: { requireLogin: true }
+            },
+        ]
     },
     {
         path: '/about',
@@ -46,26 +56,53 @@ const routes = [
         component: () => import(/* webpackChunkName: "about" */ '../views/PageAbout.vue')
     },
     {
-        path: '/board/list',
-        name: 'BoardList',
-        component: BoardList
-    },
-    {
-        path: '/board/detail',
-        name: 'BoardDetail',
-        component: BoardDetail
-    },
-    {
-        path: '/board/write',
-        name: 'BoardWrite',
-        component: BoardWrite
-    },
-
+        path: '/score',
+        name: 'Score',
+        component: () => import('../views/Score.vue'),
+        // beforeEnter: (to, from, next) => {
+        //     const isLogin = store.getters['loginStore/isLogin'];
+        //     if (!isLogin) {
+        //         next('/login?returnUrl=' + to.fullPath);
+        //     } else {
+        //         next();
+        //     }
+        // }
+    }
+    // {
+    //     path: '/board/list',
+    //     name: 'BoardList',
+    //     component: BoardList
+    // },
+    // {
+    //     path: '/board/detail',
+    //     name: 'BoardDetail',
+    //     component: BoardDetail
+    // },
+    // {
+    //     path: '/board/write',
+    //     name: 'BoardWrite',
+    //     component: BoardWrite
+    // },
 ]
 
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes
 })
-
+router.beforeEach((to, from, next) => {
+    console.log(to);
+    if (to.matched.some(record => record.meta.requireLogin)) {
+        const isLogin = store.getters['loginStore/isLogin'];
+        if (!isLogin) {
+            var result = confirm("로그인되어야 사용 가능합니다.\n로그인 하시겠습니까?");
+            if (result) {
+                next({name: 'login_rest', query: { returnUrl: to.fullPath }});
+            }
+        } else {
+            next();
+        }
+    } else {
+        next();
+    }
+});
 export default router

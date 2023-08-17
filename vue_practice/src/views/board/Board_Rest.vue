@@ -2,7 +2,7 @@
   <div class="board-list">
     <div class="common-buttons">
       <div class="right">
-        <router-link to="/boardRestWrite" class="button blue"><span>쓰기</span></router-link>
+        <router-link :to="{name: 'boardRestWrite'}" class="button blue"><span>쓰기</span></router-link>
       </div>
     </div>
     <table class="w3-table-all">

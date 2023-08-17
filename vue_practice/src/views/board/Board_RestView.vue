@@ -31,8 +31,8 @@
       <button class="button" @click="boardListClick">목록</button>
     </div>
     <div class="left">
-      <button class="button" @click="boardEditClick">수정</button>
-      <button class="button" @click="boardDeleteClick">삭제</button>
+      <button class="button" v-if="isEditable" @click="boardEditClick">수정</button>
+      <button class="button" v-if="isEditable" @click="boardDeleteClick">삭제</button>
     </div>
   </div>
 </template>
@@ -48,6 +48,19 @@ export default {
   },
   mounted() {
     this.getBoardRead();
+  },
+  computed : {
+    isEditable() {
+      var result = false;
+      var isLogin = this.$store.getters['loginStore/isLogin'];
+      if (isLogin) {
+        const writer = this.$store.state.loginStore.memberId;
+        if (writer == this.boardItem.writer) {
+          result = true;
+        }
+      }
+      return result;
+    }
   },
   methods : {
     getBoardRead() {
