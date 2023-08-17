@@ -3,7 +3,7 @@
     <div class="topline">
       <div class="headmenu">
         <div v-if="isLogin">
-          {{ memberid }}님, 안녕하세요.
+          {{ this.memberid }}님, 안녕하세요.
           <span @click="Logout()">로그아웃</span>
         </div>
         <div v-else>
