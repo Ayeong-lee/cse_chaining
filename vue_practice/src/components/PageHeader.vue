@@ -9,9 +9,9 @@
         <li>
           <router-link to="/about">About</router-link>
         </li>
-        <li>
-          <router-link to="/board/list">게시판</router-link>
-        </li>
+<!--        <li>-->
+<!--          <router-link to="/board/list">게시판</router-link>-->
+<!--        </li>-->
         <li>
         <router-link to="/boardRest">게시판_RestAPI</router-link>
       </li>
