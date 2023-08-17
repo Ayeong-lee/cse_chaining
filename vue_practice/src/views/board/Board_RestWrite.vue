@@ -134,7 +134,7 @@ export default {
       }
       var result = confirm("등록하시겠습니까?");
       if (result) {
-        let boardItem = { subject : this.subject, content : this.content };
+        let boardItem = { writer : this.writer, subject : this.subject, content : this.content };
         axios.post("http://localhost:9000/boards", boardItem).then((res)=>{
           console.log(res);
           if (res.data.success == true) {
