@@ -61,19 +61,19 @@ const routes = [
         // which is lazy-loaded when the route is visited.
         component: () => import(/* webpackChunkName: "about" */ '../views/PageAbout.vue')
     },
-    {
-        path: '/score',
-        name: 'Score',
-        component: () => import('../views/Score.vue'),
-        // beforeEnter: (to, from, next) => {
-        //     const isLogin = store.getters['loginStore/isLogin'];
-        //     if (!isLogin) {
-        //         next('/login?returnUrl=' + to.fullPath);
-        //     } else {
-        //         next();
-        //     }
-        // }
-    }
+    // {
+    //     path: '/score',
+    //     name: 'Score',
+    //     component: () => import('../views/Score.vue'),
+    //     // beforeEnter: (to, from, next) => {
+    //     //     const isLogin = store.getters['loginStore/isLogin'];
+    //     //     if (!isLogin) {
+    //     //         next('/login?returnUrl=' + to.fullPath);
+    //     //     } else {
+    //     //         next();
+    //     //     }
+    //     // }
+    // }
     // {
     //     path: '/board/list',
     //     name: 'BoardList',
