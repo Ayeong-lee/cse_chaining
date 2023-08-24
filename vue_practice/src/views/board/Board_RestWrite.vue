@@ -122,7 +122,7 @@ export default {
         alert(err);
       });
     },
-    async boardSaveClick() {
+    boardSaveClick() {
       if (this.subject == "") {
         alert("제목을 입력하세요.");
         this.$refs.subjectInput.focus();

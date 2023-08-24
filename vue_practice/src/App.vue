@@ -29,6 +29,9 @@ export default {
       this.$router.push('/');
     }
   },
+  mounted() {
+    this.$store.dispatch("loginStore/doReadStateFromStorage");
+  },
   computed: {
     isLogin() {
       return this.$store.getters['loginStore/isLogin'];

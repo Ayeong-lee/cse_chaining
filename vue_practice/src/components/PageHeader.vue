@@ -17,7 +17,7 @@
       </li>
       </ul>
       <p>
-        <router-link to="/login">Login</router-link>
+        <router-link :to="{ name: 'login_rest', query: { returnUrl: '/' }}" v-show="isLogin == false">Login</router-link>
       </p>
     </div>
   </header>
@@ -26,7 +26,12 @@
 
 <script>
 export default {
-    name: "PageHeader"
+  name: "PageHeader",
+  computed: {
+    isLogin() {
+      return this.$store.getters['loginStore/isLogin'];
+    }
+  },
 }
 </script>
 
