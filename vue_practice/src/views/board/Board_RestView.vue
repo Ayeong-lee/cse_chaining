@@ -25,7 +25,7 @@
       </tr>
       <tr>
         <th scope="row">최소금액</th>
-<!--        <td>{{boardItem.money}}</td>-->
+        <td>{{boardItem.minPrice}}</td>
       </tr>
       </tbody>
     </table>
