@@ -1,12 +1,17 @@
 import { createStore } from 'vuex';
 // import scoreStore from '@/store/modules/score.js';
 import loginStore from '@/store/modules/login.js';
+import createPersistedState from "vuex-persistedstate";
 
+const storageState = createPersistedState({
+    paths: ['loginStore']
+});
 export default createStore({
     modules: {
-    //     scoreStore: scoreStore,
+        // scoreStore: scoreStore,
         loginStore: loginStore
     },
+    plugins: [storageState],
     state: {
         // 합산 점수
         total: 0,

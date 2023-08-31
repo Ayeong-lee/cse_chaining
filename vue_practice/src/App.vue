@@ -5,6 +5,7 @@
         <div v-if="isLogin">
           {{ this.$store.state.loginStore.memberId }}님, 안녕하세요.
           <span @click="Logout()">로그아웃</span>
+          <router-link :to="{ name: 'register', query: { returnUrl: '/' }}" v-show="isLogin == true">회원수정</router-link>
         </div>
         <div v-else>
           <router-link :to="{ name: 'login_rest', query: { returnUrl: '/' }}" v-show="isLogin == false">로그인</router-link>
@@ -29,9 +30,9 @@ export default {
       this.$router.push('/');
     }
   },
-  mounted() {
-    this.$store.dispatch("loginStore/doReadStateFromStorage");
-  },
+  // mounted() {
+  //   this.$store.dispatch("loginStore/doReadStateFromStorage");
+  // },
   computed: {
     isLogin() {
       return this.$store.getters['loginStore/isLogin'];
@@ -84,6 +85,7 @@ export default {
 }
 
 .header .topline .headmenu a {
+  padding: 0 5px;
   font-weight: bold;
   color: #2c3e50;
 }

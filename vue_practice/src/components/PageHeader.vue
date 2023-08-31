@@ -9,15 +9,16 @@
         <li>
           <router-link to="/about">About</router-link>
         </li>
-<!--        <li>-->
-<!--          <router-link to="/board/list">게시판</router-link>-->
-<!--        </li>-->
+        <!--        <li>-->
+        <!--          <router-link to="/board/list">게시판</router-link>-->
+        <!--        </li>-->
         <li>
-        <router-link to="/boardRest">게시판_RestAPI</router-link>
-      </li>
+          <router-link to="/boardRest">게시판_RestAPI</router-link>
+        </li>
       </ul>
       <p>
-        <router-link :to="{ name: 'login_rest', query: { returnUrl: '/' }}" v-show="isLogin == false">Login</router-link>
+        <router-link :to="{ name: 'login_rest', query: { returnUrl: '/' }}" v-show="isLogin == false">Login
+        </router-link>
       </p>
     </div>
   </header>

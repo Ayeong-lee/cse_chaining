@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { useCookies } from "vue3-cookies";
+// import { useCookies } from "vue3-cookies";
 const axiosRefresh = axios.create();
-const { cookies } = useCookies();
+// const { cookies } = useCookies();
 
 const loginStore = {
     namespaced: true,
@@ -42,11 +42,11 @@ const loginStore = {
         setMmemberId(state, memberId) {
             state.memberId = memberId;
         },
-        // Access-Token을 설정합니다.
+        // Access-Token를 설정합니다.
         setAccessToken(state, accessToken) {
             state.accessToken = accessToken;
         },
-        // Refresh-Token을 설정합니다.
+        // Refresh-Token를 설정합니다.
         setRefreshToken(state, refreshToken) {
             state.refreshToken = refreshToken;
         },
@@ -58,15 +58,15 @@ const loginStore = {
             //cookies.remove("testvue.login.memberId");
             //cookies.remove("testvue.login.accessToke");
             //cookies.remove("testvue.login.refreshToken");
-            cookies.remove("testvue.login");
-        },
+            //cookies.remove("testvue.login");
+        }
+        /*
         // Storage에 state를 저장합니다.
-
         saveStateToStorage(state) {
             //cookies.set("testvue.login.memberId", state.memberId, 60 * 60 * 24 * 30);
             //cookies.set("testvue.login.accessToke", state.accessToken, 60 * 60 * 24 * 30);
             //cookies.set("testvue.login.refreshToken", state.refreshToken, 60 * 60 * 24 * 30);
-            cookies.set("testvue.login", JSON.stringify(state), 60 * 60 * 24 * 30);
+            //cookies.set("testvue.login", JSON.stringify(state), 60 * 60 * 24 * 30);
         },
         // Storage에서 state를 읽어옵니다.
         readStateFromStorage(state) {
@@ -78,24 +78,25 @@ const loginStore = {
             //}
             //if (cookies.get("testvue.login.refreshToken") != null) {
             //	state.refreshToken = cookies.get("testvue.login.refreshToken");
-            //     }
-            if (cookies.get("testvue.login") != null) {
-                let storage = cookies.get("testvue.login");
-                if (storage.memberId != null) {
-                    state.memberId = storage.memberId;
-                }
-                if (storage.accessToken != null) {
-                    state.accessToken = storage.accessToken;
-                }
-                if (storage.memberId != null) {
-                    state.refreshToken = storage.refreshToken;
-                }
-            }
+            //}
+            //if (cookies.get("testvue.login") != null) {
+            //	let storage = cookies.get("testvue.login");
+            //	if (storage.memberId != null) {
+            //		state.memberId = storage.memberId;
+            //	}
+            //	if (storage.accessToken != null) {
+            //		state.accessToken = storage.accessToken;
+            //	}
+            //	if (storage.memberId != null) {
+            //		state.refreshToken = storage.refreshToken;
+            //	}
+            //}
         }
+        */
     },
     actions: {
         // 로그인합니다.
-        async doLogin({commit}, memberInfo) {
+        async doLogin({ commit }, memberInfo) {
             let result = false;
             let resultErr = null;
             try {
@@ -106,19 +107,19 @@ const loginStore = {
                     commit('setAccessToken', res.data.accessToken);
                     commit('setRefreshToken', res.data.refreshToken);
                     // Storage에 state를 저장합니다.
-                    commit('saveStateToStorage');
+                    //commit('saveStateToStorage');
                     axios.defaults.headers.common['Access-Token'] = res.data.accessToken;
                     result = true;
                 } else {
                     console.log("로그인되지 않았습니다.");
                     let err = new Error("Request failed with status code 401");
                     err.status = 401;
-                    err.response = {data: {"success": false, "errormessage": "로그인되지 않았습니다."}};
+                    err.response = {data:{"success":false, "errormessage":"로그인되지 않았습니다."}};
                     resultErr = err;
                 }
-            } catch (err) {
+            } catch(err) {
                 if (!err.response) {
-                    err.response = {data: {"success": false, "errormessage": err.message}};
+                    err.response = {data:{"success":false, "errormessage":err.message}};
                 }
                 resultErr = err;
             }
@@ -129,6 +130,11 @@ const loginStore = {
                     reject(resultErr);
                 }
             });
+        },
+        // 로그아웃합니다.
+        doLogout({commit}) {
+            commit('reset');
+            delete axios.defaults.headers.common['Access-Token'];
         },
         // Access-Token를 갱신합니다.
         async doRefreshToken({commit, state}) {
@@ -152,6 +158,7 @@ const loginStore = {
                         resultErr = err;
                     }
                 } catch(err) {
+                    //console.log(err);
                     if (!err.response) {
                         err.response = {data:{"success":false, "errormessage":err.message}};
                     }
@@ -170,16 +177,12 @@ const loginStore = {
                     reject(resultErr);
                 }
             });
-        },
-        // 로그아웃합니다.
-        doLogout({commit}) {
-            commit('reset');
-            delete axios.defaults.headers.common['Access-Token'];
-        },
-        // readStateFromStorage() 함수를 호출
+        }
+        /*
         doReadStateFromStorage({commit}) {
             commit('readStateFromStorage');
         }
+        */
     }
 };
 
