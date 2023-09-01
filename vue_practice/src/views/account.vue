@@ -51,6 +51,8 @@ export default {
   },
   methods : {
     doConfirm() {
+      this.getBoardRequired()
+      this.leaveAccount = this.boardItem.minPrice;
       if(isNaN(this.amount)){
         alert("형식이 맞지 않습니다 \n형식에 맞게 숫자를 입력해주세요");
         return;
