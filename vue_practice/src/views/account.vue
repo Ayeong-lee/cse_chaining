@@ -4,7 +4,7 @@
     <form class="loginform">
       <p>
         <span for="leastamount">최소 금액</span>
-        <span class="input_text">{{leastamount}}</span>
+        <span class="input_text">{{boardItem.minPrice}}</span>
       </p>
       <p>
         <label for="amountinput">금액</label>
@@ -30,8 +30,8 @@ export default {
   name: "account_",
   data : function() {
     return {
-      leastamount: 5000, //임시로 입력해둠 boarditem.money로 받아올 예정
-      accountamount: 500000000,// 임시로 입력해둠 accountItem.account로 받아올 예정
+      leastamount: 5000, //임시로 입력해둠 boarditem.minPrice  받아올 예정
+      accountamount: 50000000,// 임시로 입력해둠 accountItem.account로 받아올 예정
       amount: '',
       boardItem : {},
       accountItem : {},
@@ -42,6 +42,7 @@ export default {
   },
   mounted() {
     this.getBoardRequired();
+    this.getAccount();
   },
   watch : {
     accountamount(newValue, oldValue){
@@ -60,8 +61,14 @@ export default {
         alert("잔고를 초과했습니다.");
         return;
       } else{
-        this.accountamount -= this.amount
-        alert("성공적으로 송금하였습니다.")
+        axios.defaults.headers.common['Access-Token'] = this.$store.state.loginStore.accessToken;
+        axios.post("http://localhost:9000/members/account/" + this.memberId, this.amount ).then((res)=>{
+          console.log(res);
+          alert("성공적으로 송금하였습니다.")
+          this.accountamount = res.data.accountamount;
+        }).catch((err) => {
+          console.log(err);
+        });
       }
     },
     doCancel() {
@@ -75,14 +82,18 @@ export default {
         console.log(err);
       });
     },
-    // getAccount(){
-    //   axios.get("http://localhost:9000/members/login", memberInfo).then((res)=>{
-    //     console.log(res);
-    //     this.boardItem = res.data.data;
-    //   }).catch((err) => {
-    //     console.log(err);
-    //   });
-    // }
+    getAccount(){ // 현재 잔고 get : /members/account/:memberId    data:accountamount
+      const no = this.$route.query.boardNo;
+      axios.defaults.headers.common['Access-Token'] = this.$store.state.loginStore.accessToken;
+      this.memberId = this.$store.state.loginStore.memberId;
+      let accountItem = {no : no  ,  memberId: this.memberId};
+      axios.get("http://localhost:9000/members/account/" + this.memberId, accountItem ).then((res)=>{
+        console.log(res);
+        this.accountamount = res.data.accountamount;
+      }).catch((err) => {
+        console.log(err);
+      });
+    }
   },
 }
 </script>
