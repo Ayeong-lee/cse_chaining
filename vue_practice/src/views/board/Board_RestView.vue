@@ -27,6 +27,10 @@
         <th scope="row">최소금액</th>
         <td>{{boardItem.minPrice}}</td>
       </tr>
+      <tr>
+        <th scope="row">사진</th>
+        <td><img :src="imgURL" alt=""></td>
+      </tr>
       </tbody>
     </table>
   </div>
@@ -48,7 +52,8 @@ export default {
   name : 'Board_RestView',
   data : function() {
     return {
-      boardItem : {}
+      boardItem : {},
+      imgURL: ''
     };
   },
   mounted() {
@@ -72,6 +77,7 @@ export default {
       axios.get("http://localhost:9000/boards/" + this.$route.query.boardNo).then((res)=>{
         console.log(res);
         this.boardItem = res.data.data;
+        this.imgURL = this.boardItem.imageLink;
       }).catch((err) => {
         console.log(err);
       });

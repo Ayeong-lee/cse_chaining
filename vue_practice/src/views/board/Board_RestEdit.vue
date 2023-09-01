@@ -15,10 +15,21 @@
         <td><input type="text" placeholder="제목을 입력하세요." ref="subjectInput" v-model.trim="boardItem.subject"></td>
       </tr>
       <tr>
+        <th scope="row">사진</th>
+        <td><img :src="this.boardItem.imageLink" alt=""></td>
+      </tr>
+      <tr>
         <th scope="row">내용</th>
         <td><textarea rows="10" placeholder="내용을 입력하세요." ref="contentTextarea" v-model.trim="boardItem.content"></textarea></td>
       </tr>
       </tbody>
+      <div class="custom-file">
+        <input type="file" name="photos" id="photos" v-on:change='savePic()' @change="readInputFile"/>
+      </div>
+      <br>
+      <div id="imagePreview">
+        <img id="img"/>
+      </div>
     </table>
     <div class="buttons">
       <div class="right">
@@ -28,14 +39,35 @@
     </div>
   </div>
 </template>
-
+<script setup>
+import $ from 'jquery';
+const readInputFile = (e) => {// 미리보기 기능구현
+  $('#imagePreview').empty();
+  var files = e.target.files;
+  var fileArr = Array.prototype.slice.call(files);
+  console.log(fileArr);
+  fileArr.forEach(function(f){
+    if(!f.type.match("image/.*")){
+      alert("이미지 확장자만 업로드 가능합니다.");
+      return;
+    }
+    var reader = new FileReader();
+    reader.onload = function(e){
+      var html = `<img src=${e.target.result} />`;
+      $('#imagePreview').append(html);
+    };
+    reader.readAsDataURL(f);
+  })
+}
+</script>
 <script>
 import axios from "axios";
 export default {
   name: "Board_RestEdit",
   data : function() {
     return {
-      boardItem : {}
+      boardItem : {},
+      imgURL: ''
     };
   },
   mounted() {
@@ -81,7 +113,23 @@ export default {
     },
     boardCancelClick() {
       this.$router.go(-1);
-    }
+    },
+    savePic(){
+      var photos   = new FormData();
+      var photoFile = document.getElementById("photos");
+      photos.append("photos", photoFile.files[0]);
+      axios.defaults.headers.common['Access-Token'] = this.$store.state.loginStore.accessToken;
+      axios.post('http://localhost:9000/upload', photos  , {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization' : `Bearer ${this.$store.state.accessToken}`
+        }
+      }).then((res)=> {
+        console.log(res);
+      }).catch(err => {
+        console.log(err);
+      })
+    },
   },
 
 }

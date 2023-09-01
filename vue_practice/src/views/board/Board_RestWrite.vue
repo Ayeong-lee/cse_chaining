@@ -15,12 +15,16 @@
         <td><input type="text" placeholder="제목을 입력하세요." ref="subjectInput" v-model.trim="subject"></td>
       </tr>
       <tr>
+        <th scope="row">금액</th>
+        <td><input type="text" placeholder="금액을 입력하세요." ref="priceInput" v-model.trim="price"></td>
+      </tr>
+      <tr>
         <th scope="row">내용</th>
         <td><textarea rows="10" placeholder="내용을 입력하세요." ref="contentTextarea" v-model.trim="content"></textarea></td>
       </tr>
       </tbody>
       <div class="custom-file">
-        <input type="file" name="photos" id="photos" v-on:change='savePic()'/>
+        <input type="file" name="photos" id="photos" v-on:change='savePic()' @change="readInputFile"/>
       </div>
       <br>
       <div id="imagePreview">
@@ -35,6 +39,28 @@
     </div>
   </div>
 </template>
+<script setup>
+import $ from 'jquery';
+const readInputFile = (e) => {// 미리보기 기능구현
+  $('#imagePreview').empty();
+  var files = e.target.files;
+  var fileArr = Array.prototype.slice.call(files);
+  console.log(fileArr);
+  fileArr.forEach(function(f){
+    if(!f.type.match("image/.*")){
+      alert("이미지 확장자만 업로드 가능합니다.");
+      return;
+    }
+    var reader = new FileReader();
+    reader.onload = function(e){
+      var html = `<img src=${e.target.result} />`;
+      $('#imagePreview').append(html);
+    };
+    reader.readAsDataURL(f);
+  })
+}
+</script>
+
 <script>
 import axios from "axios";
 
@@ -45,6 +71,7 @@ export default {
       writer : this.$store.state.loginStore.memberId,
       subject: '',
       content: '',
+      price : 0,
       uploadimageurl: [],    // 업로드한 이미지의 미리보기 기능을 위해 url 저장하는 객체
     };
   },
@@ -105,9 +132,11 @@ export default {
       var photos   = new FormData();
       var photoFile = document.getElementById("photos");
       photos.append("photos", photoFile.files[0]);
+      axios.defaults.headers.common['Access-Token'] = this.$store.state.loginStore.accessToken;
       axios.post('http://localhost:9000/upload', photos  , {
         headers: {
-          'Content-Type': 'multipart/form-data'
+          'Content-Type': 'multipart/form-data',
+          'Authorization' : `Bearer ${this.$store.state.accessToken}`
         }
       }).then((res)=> {
         console.log(res);
@@ -127,7 +156,7 @@ export default {
       }
       var result = confirm("등록하시겠습니까?");
       if (result) {
-        let boardItem = { writer : this.writer, subject : this.subject, content : this.content };
+        let boardItem = { writer : this.writer, subject : this.subject, minPrice : this.price, content : this.content };
         axios.post("http://localhost:9000/boards", boardItem).then((res)=>{
           console.log(res);
           if (res.data.success == true) {
