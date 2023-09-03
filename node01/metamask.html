@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- 아래 코드는 반드시 넣어줄것 -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script type="text/javascript">
+
+
+    window.addEventListener('load', async () => {
+        let web3, account;
+
+        if (window.ethereum) {
+          web3 = new Web3(window.ethereum);
+
+        } else if (typeof window.web3 !== 'undefined') {
+          web3 = new Web3(window.web3.currentProvider);
+        } else {
+          reject(new Error('No web3 instance injected, using local web3.'))
+          //메타마스크를 설치하라는 alert 띄워줄 것
+        }
+        if (web3) {
+          account = await web3.eth.requestAccounts(); //이렇게 하면 계좌 리스트가 불러와지고
+          my_account = account[0]; //거기서 맨 첫번째 요소를 불러와서 계좌에 셋팅해주면 됨 -> '문자열' 형식인지 다시 확인해보고 백엔드로 전달
+          var valance = await web3.eth.getBalance(account[0]); //이건 본인 계좌 잔고 함수
+          console.log(account);
+        }
+    })
+  </script>
+
+</head>
+<body>
+</body>
+</html>
