@@ -28,8 +28,8 @@
         <td>{{boardItem.minPrice}}</td>
       </tr>
       <tr>
-        <th scope="row">사진</th>
-        <td><img :src="imgURL" alt=""></td>
+        <th scope="row" >사진</th>
+        <td><img :src="imgURL" alt="" class="picture"></td>
       </tr>
       </tbody>
     </table>
@@ -76,11 +76,21 @@ export default {
     getBoardRead() {
       axios.get("http://localhost:9000/boards/" + this.$route.query.boardNo).then((res)=>{
         console.log(res);
+        console.log(this.$route.query.boardNo);
         this.boardItem = res.data.data;
-        this.imgURL = this.boardItem.imageLink;
       }).catch((err) => {
         console.log(err);
       });
+      axios.get("http://localhost:9000/upload/download/20230805_184904.png", { responseType: "arraybuffer" })
+          .then((response) => {
+            const base64 = btoa(
+                new Uint8Array(response.data).reduce(
+                    (data, byte) => data + String.fromCharCode(byte),
+                    ""
+                )
+            );
+            this.imgURL = `data:image/png;base64,${base64}`;
+          });
     },
     boardListClick() {
       this.$router.go(-1);
@@ -141,6 +151,9 @@ export default {
   border-bottom: 1px solid #ccc;
   font-size: 14px;
   line-heighT: 150%;
+}
+.boardview table tr .picture{
+  height:300px
 }
 
 .boardview table td.title {
