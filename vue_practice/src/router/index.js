@@ -34,11 +34,11 @@ const routes = [
         name: 'connect',
         component: () => import('../views/Contract/connect.vue')
     },
-    {
-        path: '/sendCompleted',
-        name: 'sendCompleted',
-        component: () => import('../views/Contract/sendComplete.vue')
-    },
+    // {
+    //     path: '/sendCompleted',
+    //     name: 'sendCompleted',
+    //     component: () => import('../views/Contract/sendComplete.vue')
+    // },
     {
         path: '/BoardRest',
         name: 'Board',
