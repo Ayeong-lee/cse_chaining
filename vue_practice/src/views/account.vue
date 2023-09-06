@@ -10,25 +10,25 @@
         <label for="amountinput">금액</label>
         <input type="text" id="amountinput" class="input_text" ref="amountinput" v-model.trim="amount" placeholder="원하시는 금액을 입력하세요." />
       </p>
-      <p>
-        <span for="accountamount">현재 잔고</span>
-        <span class="input_text">{{accountamount}}</span>
-      </p>
       <p class="buttons">
         <button @click.prevent="doCheck" class="button blue">조회</button>
         <button @click.prevent="doConfirm" clas="button blue">제출</button>
         <button @click.prevent="doCancel" class="button">취소</button>
       </p>
     </form>
+    <ConnectMeta />
     <p>{{ errorMessage }}</p>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-
+import ConnectMeta from './Contract/connect.vue'
 export default {
   name: "account_",
+  components: {
+    ConnectMeta,
+  },
   data : function() {
     return {
       leastamount: 5000, //임시로 입력해둠 boarditem.minPrice  받아올 예정

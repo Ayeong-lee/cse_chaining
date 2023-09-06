@@ -71,7 +71,8 @@ export default {
   data : function() {
     return {
       boardItem : {},
-      imgURL: ''
+      imgURL: '',
+      fileName : '',
     };
   },
   mounted() {
@@ -103,7 +104,7 @@ export default {
       }
       var result = confirm("수정하시겠습니까?");
       if (result) {
-        let boardItem = { subject : this.boardItem.subject, content : this.boardItem.content, minPrice : this.boardItem.minPrice };
+        let boardItem = { subject : this.boardItem.subject, content : this.boardItem.content, minPrice : this.boardItem.minPrice ,filename : this.filename};
         try {
           let res = await axios.put("http://localhost:9000/boards/" + this.$route.query.boardNo, boardItem);
           console.log(res.data.success);
@@ -126,6 +127,10 @@ export default {
       var photos   = new FormData();
       var photoFile = document.getElementById("photos");
       photos.append("photos", photoFile.files[0]);
+
+      this.filename = photoFile.files[0].name;
+      console.log(this.fileName);
+
       axios.defaults.headers.common['Access-Token'] = this.$store.state.loginStore.accessToken;
       axios.post('http://localhost:9000/upload', photos  , {
         headers: {

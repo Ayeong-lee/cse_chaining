@@ -53,7 +53,8 @@ export default {
   data : function() {
     return {
       boardItem : {},
-      imgURL: ''
+      imgURL: '',
+      filename : '',
     };
   },
   mounted() {
@@ -78,19 +79,26 @@ export default {
         console.log(res);
         console.log(this.$route.query.boardNo);
         this.boardItem = res.data.data;
+        console.log('filename:')
+        console.log(res.data.data.filename);
+        this.filename = res.data.data.filename
+        axios.get("http://localhost:9000/upload/download/"+ this.filename, { responseType: "arraybuffer" })
+            .then((response) => {
+              const base64 = btoa(
+                  new Uint8Array(response.data).reduce(
+                      (data, byte) => data + String.fromCharCode(byte),
+                      ""
+                  )
+              );
+              this.imgURL = `data:image/png;base64,${base64}`;
+            }).catch((err) => {
+          console.log(err);
+          alert('http://localhost:9000/upload/download/ 사진 불러오기 실패');
+        });
       }).catch((err) => {
         console.log(err);
       });
-      axios.get("http://localhost:9000/upload/download/20230805_184904.png", { responseType: "arraybuffer" })
-          .then((response) => {
-            const base64 = btoa(
-                new Uint8Array(response.data).reduce(
-                    (data, byte) => data + String.fromCharCode(byte),
-                    ""
-                )
-            );
-            this.imgURL = `data:image/png;base64,${base64}`;
-          });
+
     },
     boardListClick() {
       this.$router.go(-1);

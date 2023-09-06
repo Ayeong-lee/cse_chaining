@@ -44,6 +44,8 @@ import $ from 'jquery';
 const readInputFile = (e) => {// 미리보기 기능구현
   $('#imagePreview').empty();
   var files = e.target.files;
+  // this.filename = files[0].name;
+  // console.log(this.filename);
   var fileArr = Array.prototype.slice.call(files);
   console.log(fileArr);
   fileArr.forEach(function(f){
@@ -72,6 +74,7 @@ export default {
       subject: '',
       content: '',
       price : '',
+      fileName : '',
       uploadimageurl: [],    // 업로드한 이미지의 미리보기 기능을 위해 url 저장하는 객체
     };
   },
@@ -132,6 +135,8 @@ export default {
       var photos   = new FormData();
       var photoFile = document.getElementById("photos");
       photos.append("photos", photoFile.files[0]);
+      this.filename = photoFile.files[0].name;
+      console.log(this.fileName);
       axios.defaults.headers.common['Access-Token'] = this.$store.state.loginStore.accessToken;
       axios.post('http://localhost:9000/upload', photos  , {
         headers: {
@@ -159,8 +164,11 @@ export default {
         return;
       }
       var result = confirm("등록하시겠습니까?");
+      // console.log('write 중 filename:')
+      // console.log(this.fileName);
       if (result) {
-        let boardItem = { writer : this.writer, subject : this.subject, minPrice : this.price, content : this.content };
+        // console.log(this.fileName);
+        let boardItem = { writer : this.writer, subject : this.subject, minPrice : this.price, content : this.content ,filename : this.filename};
         axios.post("http://localhost:9000/boards", boardItem).then((res)=>{
           console.log(res);
           if (res.data.success == true) {

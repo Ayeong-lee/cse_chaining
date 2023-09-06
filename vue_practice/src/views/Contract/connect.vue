@@ -1,9 +1,9 @@
 <template>
   <div>
     <!-- connect-wallet button is visible if the wallet is not connected -->
-    <button v-if="!connected" @click="connect">Connect wallet</button>
+    <button v-if="!connected" @click="connect">wallet 연결하기</button>
     <!-- call-contract button is visible if the wallet is connected -->
-    <button v-if="connected" @click="callContract">Call contract</button>
+    <button v-if="connected" @click="callContract">잔고 조회하기</button>
     <div v-html="contractResult" class="ETHmessage">
     </div>
   </div>
@@ -66,5 +66,19 @@ export default {
 div .ETHmessage {
   font-family: GangwonState;
   font-size: 30px;
+}
+div button {
+  display: inline-block;
+  overflow: visible;
+  cursor: pointer;
+  width: 180px;
+  height: 32px;
+  margin: 0 2px;
+  padding: 0 15px;
+  line-height: 32px;
+  font-size: 14px;
+  border: 1px solid #dfdfdf;
+  background: #fff;
+  border-radius: 10px;
 }
 </style>
