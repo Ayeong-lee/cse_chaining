@@ -12,5 +12,7 @@ export default {
 </script>
 
 <style scoped>
-
+div h2 {
+  font-family: GangwonState;
+}
 </style>
