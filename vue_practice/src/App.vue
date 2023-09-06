@@ -9,6 +9,7 @@
         </div>
         <div v-else>
           <router-link :to="{ name: 'login_rest', query: { returnUrl: '/' }}" v-show="isLogin == false">로그인</router-link>
+          <router-link :to="{ name: 'register2', query: { returnUrl: '/' }}" v-show="isLogin == false">회원가입</router-link>
         </div>
       </div>
     </div>
