@@ -20,6 +20,11 @@ const routes = [
         component: Account
     },
     {
+        path: '/register2',
+        name: 'register2',
+        component: () => import('../views/member_Register2.vue')
+    },
+    {
         path: '/login',
         name: 'login_rest',
         component: Login_Rest
