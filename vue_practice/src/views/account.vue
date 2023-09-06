@@ -15,7 +15,8 @@
         <span class="input_text">{{accountamount}}</span>
       </p>
       <p class="buttons">
-        <button @click.prevent="doConfirm" class="button blue">제출</button>
+        <button @click.prevent="doCheck" class="button blue">조회</button>
+        <button @click.prevent="doConfirm" clas="button blue">제출</button>
         <button @click.prevent="doCancel" class="button">취소</button>
       </p>
     </form>
