@@ -71,7 +71,7 @@ export default {
       writer : this.$store.state.loginStore.memberId,
       subject: '',
       content: '',
-      price : 0,
+      price : '',
       uploadimageurl: [],    // 업로드한 이미지의 미리보기 기능을 위해 url 저장하는 객체
     };
   },
@@ -152,6 +152,10 @@ export default {
       } else if (this.content == "") {
         alert("내용을 입력하세요.");
         this.$refs.contentTextarea.focus();
+        return;
+      } else if (this.price < 0 || isNaN(this.price)) {
+        alert("최소금액을 입력하세요.");
+        this.$refs.priceInput.focus();
         return;
       }
       var result = confirm("등록하시겠습니까?");

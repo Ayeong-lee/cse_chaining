@@ -15,6 +15,10 @@
         <td><input type="text" placeholder="제목을 입력하세요." ref="subjectInput" v-model.trim="boardItem.subject"></td>
       </tr>
       <tr>
+        <th scope="row">금액</th>
+        <td><input type="text" placeholder="금액을 입력하세요." ref="priceInput" v-model.trim="boardItem.minPrice"></td>
+      </tr>
+      <tr>
         <th scope="row">사진</th>
         <td><img :src="this.boardItem.imageLink" alt=""></td>
       </tr>
@@ -92,10 +96,14 @@ export default {
         alert("내용을 입력하세요.");
         this.$refs.contentTextarea.focus();
         return;
+      } else if (isNaN(this.boardItem.minPrice) || this.boardItem.minPrice < 0){
+        alert("올바른 액수를 입력하세요.");
+        this.$refs.contentTextarea.focus();
+        return;
       }
       var result = confirm("수정하시겠습니까?");
       if (result) {
-        let boardItem = { subject : this.boardItem.subject, content : this.boardItem.content };
+        let boardItem = { subject : this.boardItem.subject, content : this.boardItem.content, minPrice : this.boardItem.minPrice };
         try {
           let res = await axios.put("http://localhost:9000/boards/" + this.$route.query.boardNo, boardItem);
           console.log(res.data.success);
