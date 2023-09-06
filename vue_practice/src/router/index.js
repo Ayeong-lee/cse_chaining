@@ -30,6 +30,16 @@ const routes = [
         component: () => import('../views/member_Register.vue')
     },
     {
+        path: '/connect',
+        name: 'connect',
+        component: () => import('../views/Contract/connect.vue')
+    },
+    {
+        path: '/sendCompleted',
+        name: 'sendCompleted',
+        component: () => import('../views/Contract/sendComplete.vue')
+    },
+    {
         path: '/BoardRest',
         name: 'Board',
         component: () => import('../views/Board.vue'),
