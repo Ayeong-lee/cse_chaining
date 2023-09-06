@@ -13,7 +13,7 @@
         <!--          <router-link to="/board/list">게시판</router-link>-->
         <!--        </li>-->
         <li>
-          <router-link to="/boardRest">게시판_RestAPI</router-link>
+          <router-link to="/boardRest">기부 게시판</router-link>
         </li>
       </ul>
       <p>
