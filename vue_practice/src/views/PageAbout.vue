@@ -22,10 +22,18 @@
                   class="meta_image">
             </router-link>
           </td>
+          <td>
+            <router-link to="/Profile">
+              <img
+                  src="https://cdn-icons-png.flaticon.com/512/3039/3039788.png"
+                  class="meta_image">
+            </router-link>
+          </td>
         </tr>
         <tr class="intro">
           <td>메타마스크 연결</td>
           <td>기부하기</td>
+          <td>기부 프로필 조회</td>
         </tr>
 
         </tbody>
