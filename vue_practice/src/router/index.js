@@ -35,6 +35,11 @@ const routes = [
         component: () => import('../views/member_Register.vue')
     },
     {
+        path: '/Profile',
+        name: 'Profile',
+        component: () => import('../views/Nft/Nfts.vue')
+    },
+    {
         path: '/connect',
         name: 'connect',
         component: () => import('../views/Contract/connect.vue')
