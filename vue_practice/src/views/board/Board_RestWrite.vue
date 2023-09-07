@@ -27,10 +27,10 @@
         <input type="file" name="photos" id="photos" v-on:change='savePic()' @change="readInputFile"/>
       </div>
       <br>
-      <div id="imagePreview">
-        <img id="img"/>
-      </div>
     </table>
+    <div id="imagePreview">
+      <img id="img"/>
+    </div>
     <div class="buttons">
       <div class="right">
         <button class="button blue" @click="boardSaveClick">등록</button>
@@ -47,7 +47,6 @@ const readInputFile = (e) => {// 미리보기 기능구현
   // this.filename = files[0].name;
   // console.log(this.filename);
   var fileArr = Array.prototype.slice.call(files);
-  console.log(fileArr);
   fileArr.forEach(function(f){
     if(!f.type.match("image/.*")){
       alert("이미지 확장자만 업로드 가능합니다.");
@@ -144,6 +143,8 @@ export default {
           'Authorization' : `Bearer ${this.$store.state.accessToken}`
         }
       }).then((res)=> {
+        this.uploadimageurl = res.data.photos;
+        // console.log(this.uploadimageurl[0]);
         console.log(res);
       }).catch(err => {
         console.log(err);
@@ -168,7 +169,7 @@ export default {
       // console.log(this.fileName);
       if (result) {
         // console.log(this.fileName);
-        let boardItem = { writer : this.writer, subject : this.subject, minPrice : this.price, content : this.content ,filename : this.filename};
+        let boardItem = { writer : this.writer, subject : this.subject, minPrice : this.price, content : this.content ,imageLink : this.uploadimageurl[0]};
         axios.post("http://localhost:9000/boards", boardItem).then((res)=>{
           console.log(res);
           if (res.data.success == true) {

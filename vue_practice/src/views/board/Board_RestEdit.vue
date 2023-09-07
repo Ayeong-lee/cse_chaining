@@ -20,7 +20,7 @@
       </tr>
       <tr>
         <th scope="row">사진</th>
-        <td><img :src="this.boardItem.imageLink" alt=""></td>
+        <td><img :src=imgURL class="picture" /></td>
       </tr>
       <tr>
         <th scope="row">내용</th>
@@ -31,10 +31,10 @@
         <input type="file" name="photos" id="photos" v-on:change='savePic()' @change="readInputFile"/>
       </div>
       <br>
-      <div id="imagePreview">
-        <img id="img"/>
-      </div>
     </table>
+    <div id="imagePreview" class="preview_pic">
+      <img id="img"/>
+    </div>
     <div class="buttons">
       <div class="right">
         <button class="button blue" @click="boardUpdateClick">수정</button>
@@ -73,6 +73,7 @@ export default {
       boardItem : {},
       imgURL: '',
       fileName : '',
+      uploadimageurl: [],
     };
   },
   mounted() {
@@ -80,10 +81,15 @@ export default {
     this.$refs.subjectInput.focus();
   },
   methods: {
+    getLink(){
+      this.imgURL = "http://localhost:9000" + this.boardItem.imageLink
+      return this.imgURL;
+    },
     getBoardRead() {
       axios.get("http://localhost:9000/boards/" + this.$route.query.boardNo).then((res)=>{
         console.log(res);
         this.boardItem = res.data.data;
+        this.imgURL = this.getLink();
       }).catch((err) => {
         console.log(err);
       });
@@ -104,7 +110,7 @@ export default {
       }
       var result = confirm("수정하시겠습니까?");
       if (result) {
-        let boardItem = { subject : this.boardItem.subject, content : this.boardItem.content, minPrice : this.boardItem.minPrice ,filename : this.filename};
+        let boardItem = { subject : this.boardItem.subject, content : this.boardItem.content, minPrice : this.boardItem.minPrice ,imageLink : this.uploadimageurl[0] };
         try {
           let res = await axios.put("http://localhost:9000/boards/" + this.$route.query.boardNo, boardItem);
           console.log(res.data.success);
@@ -138,6 +144,7 @@ export default {
           'Authorization' : `Bearer ${this.$store.state.accessToken}`
         }
       }).then((res)=> {
+        this.uploadimageurl = res.data.photos;
         console.log(res);
       }).catch(err => {
         console.log(err);
@@ -157,4 +164,12 @@ export default {
 .buttons > div.right { position:absolute; height:32px; right:0; }
 .buttons > div > .button { overflow:visible; cursor:pointer; min-width:125px; height:32px; margin:0 2px; padding:0 15px; line-height:32px; font-size:14px; border:1px solid #dfdfdf; background:#fff; border-radius:10px; }
 .buttons > div > .button.blue { color:#fff; border-color:#0099d2 !important; background:#0099d2 !important; }
+.board table tr .picture{
+  height:300px
+}
+.board .preview_pic img {
+  width: auto; height: auto;
+  box-sizing: border-box;
+  max-height: 300px;
+}
 </style>
