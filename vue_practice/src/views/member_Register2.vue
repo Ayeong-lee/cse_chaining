@@ -23,7 +23,7 @@
         <input type="password" id="memberkeyInput" class="input_text" ref="memberkeyInput" v-model.trim="private_key" placeholder="키를 입력하세요." />
       </p>
       <p class="buttons">
-        <button @click.prevent="doRegister" class="button blue">회원수정</button>
+        <button @click.prevent="doRegister" class="button blue">회원가입</button>
         <button @click.prevent="doCancel" class="button">취소</button>
       </p>
     </form>
@@ -48,31 +48,17 @@ export default {
   },
   methods : {
     async doRegister() {
-      let memberInfo = { id: this.memberId, password: this.memberPassword , name: this.memberName , my_account: this.my_account , private_key : this.private_key};
-      let success = false;
-      await axios.post("http://localhost:9000/members",memberInfo).then(response => {
-        const returnUrl = window.location.search.replace(/^\?returnUrl=/, "");
-        this.$router.push(returnUrl);
-        success = response.success;
+      let memberInfo = { id: this.memberId, password: this.memberPassword , name: this.memberName , myAccount: this.my_account , privateKey : this.private_key};
+      await axios.post("http://localhost:9000/members/sign-up",memberInfo).then((res)=> {
+        console.log(res.data)
+        if(res.data.success){
+          alert("가입에 성공하였습니다.")
+          this.$router.push('../');
+        }
       }).catch((err) => {
+        alert("가입에 실패하였습니다.")
         this.errorMessage = err.response.data.errormessage;
       });
-      if (this.memberId == "") {
-        alert("아이디를 입력하세요.");
-        this.$refs.memberIdInput.focus();
-        return;
-      } else if (this.memberPassword == "") {
-        alert("패스워드를 입력하세요.");
-        this.$refs.memberPasswordInput.focus();
-        return;
-      }
-      if (success == true) {
-        console.log("회원가입 되었습니다.");
-      } else {
-        console.log("가입되지 않았습니다.");
-        let err = new Error("Request failed with status code 401");
-        err.status = 401;
-      }
     },
     doCancel() {
       this.$router.push('../');
