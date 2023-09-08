@@ -33,6 +33,8 @@
       </tr>
       </tbody>
     </table>
+    <button class="button" v-on:click="value = 'https://chart.googleapis.com/chart?chs=400x400&cht=qr&chl='+getQR+'&choe=UTF-8'">QR생성</button>
+    <img :src="value" v-if="this.value.length > 1">
   </div>
 </template>
 <script>
@@ -44,11 +46,15 @@ export default {
       boardItem : {},
       imgURL: '',
       filename : '',
+      value: ''
     };
   },
   mounted() {
     this.getBoardRead();
     this.getLink();
+    this.$nextTick(() => {
+      window.addEventListener('click', this.onClick);
+    });
   },
   computed : {
     isEditable() {
@@ -64,6 +70,10 @@ export default {
     }
   },
   methods : {
+    getQR () {
+      console.log(window.location.href)
+      return window.location.href
+    },
     getLink(){
       this.imgURL = "http://localhost:9000" + this.boardItem.imageLink
       return this.imgURL;
