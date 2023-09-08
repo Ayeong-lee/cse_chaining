@@ -11,8 +11,7 @@
         <input type="text" id="amountinput" class="input_text" ref="amountinput" v-model.trim="amount" placeholder="원하시는 금액을 입력하세요." />
       </p>
       <p class="buttons">
-        <button @click.prevent="doCheck" class="button blue">조회</button>
-        <button @click.prevent="doConfirm" clas="button blue">제출</button>
+        <button @click.prevent="doConfirm" class="button">제출</button>
         <button @click.prevent="doCancel" class="button">취소</button>
       </p>
     </form>
@@ -31,19 +30,23 @@ export default {
   },
   data : function() {
     return {
-      leastamount: 5000, //임시로 입력해둠 boarditem.minPrice  받아올 예정
-      accountamount: 50000000,// 임시로 입력해둠 accountItem.account로 받아올 예정
+      // leastamount: 5000, //임시로 입력해둠 boarditem.minPrice  받아올 예정
+      // accountamount: 50000000,// 임시로 입력해둠 accountItem.account로 받아올 예정
       amount: '',
+      key: '',
       boardItem : {},
       accountItem : {},
       memberId : '',
       memberPassword : '',
-      errorMessage : ''
+      errorMessage : '',
+      get_link: ''
     };
   },
   mounted() {
     this.getBoardRequired();
-    this.getAccount();
+    this.$nextTick(() => {
+      window.addEventListener('click', this.onClick);
+    });
   },
   watch : {
     accountamount(newValue, oldValue){
@@ -53,24 +56,37 @@ export default {
   methods : {
     doConfirm() {
       this.getBoardRequired()
-      this.leaveAccount = this.boardItem.minPrice;
+
+      let leaveAccount = this.boardItem.minPrice;
       if(isNaN(this.amount)){
         alert("형식이 맞지 않습니다 \n형식에 맞게 숫자를 입력해주세요");
         return;
-      } else if (this.amount < this.leastamount) {
-        alert("최소 금액은 "+this.leastamount+"입니다.");
+      } else if (this.amount < leaveAccount) {
+        alert("최소 금액은 "+leaveAccount+"입니다.");
         return;
-      } else if (this.amount > this.accountamount) {
+      } else if (this.amount > ConnectMeta.computed.Getvalance()) {
+        console.log(ConnectMeta.data().valance)
         alert("잔고를 초과했습니다.");
         return;
       } else{
         axios.defaults.headers.common['Access-Token'] = this.$store.state.loginStore.accessToken;
-        axios.post("http://localhost:9000/members/account/" + this.memberId, this.amount ).then((res)=>{
+        let Item = { sendEth : this.amount , boardNo : this.$route.query.boardNo};
+        axios.post("http://localhost:9000/blockchain/transaction" , Item ).then((res)=>{
           console.log(res);
-          alert("성공적으로 송금하였습니다.")
+          if(res.data.success){
+            alert("성공적으로 송금하였습니다.")
+            let data=res.data.data;
+            this.get_link = data.url;
+            console.log(data.url);
+            console.log(this.get_link);
+            window.open(this.get_link, '_black');
+          }else if(res.data.message !== undefined){
+            alert(res.data.message)
+          }
           this.accountamount = res.data.accountamount;
         }).catch((err) => {
           console.log(err);
+          alert("송금에 실패했습니다..");
         });
       }
     },
@@ -85,18 +101,6 @@ export default {
         console.log(err);
       });
     },
-    getAccount(){ // 현재 잔고 get : /members/account/:memberId    data:accountamount
-      const no = this.$route.query.boardNo;
-      axios.defaults.headers.common['Access-Token'] = this.$store.state.loginStore.accessToken;
-      this.memberId = this.$store.state.loginStore.memberId;
-      let accountItem = {no : no  ,  memberId: this.memberId};
-      axios.get("http://localhost:9000/members/account/" + this.memberId, accountItem ).then((res)=>{
-        console.log(res);
-        this.accountamount = res.data.accountamount;
-      }).catch((err) => {
-        console.log(err);
-      });
-    }
   },
 }
 </script>
