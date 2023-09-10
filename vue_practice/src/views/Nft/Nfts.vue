@@ -33,6 +33,8 @@
       </tr>
       </tbody>
     </table>
+    <router-link :to="{name: 'Publish'}" class="Routerbutton">NFT 발급</router-link>
+    <router-link :to="{name: 'showNFT'}" class="Routerbutton">NFT 조회</router-link>
     <button class="button" v-on:click="value = 'https://chart.googleapis.com/chart?chs=400x400&cht=qr&chl='+getQR+'&choe=UTF-8'">QR생성</button>
     <img :src="value" v-if="this.value.length > 1">
   </div>
@@ -70,6 +72,20 @@ export default {
     }
   },
   methods : {
+    getNFT(){
+      console.log('getting...');
+      axios.defaults.headers.common['Access-Token'] = this.$store.state.loginStore.accessToken;
+      axios.get("http://localhost:9000/blockchain/nfts",{
+        headers: {
+          'Authorization' : `Bearer ${this.$store.state.accessToken}`
+        }
+      }).then((res)=>{
+        console.log(res);
+        window.open(res.data.data.url, '_black');
+      }).catch((err) => {
+        console.log(err);
+      });
+    },
     getQR () {
       console.log(window.location.href)
       return window.location.href
@@ -84,9 +100,6 @@ export default {
         console.log(res);
         console.log(this.$route.query.boardNo);
         this.boardItem = res.data.data;
-        console.log(this.boardItem.imageLink);
-        this.imgURL = this.getLink();
-        console.log(this.imgURL)
       }).catch((err) => {
         console.log(err);
       });
@@ -97,6 +110,33 @@ export default {
 </script>
 
 <style scoped>
+.Routerbutton{
+  overflow: visible;
+  cursor: pointer;
+  min-width: 125px;
+  height: 32px;
+  width: 125px;
+  margin: 0 2px;
+  padding: 7px 32px;
+  line-height: 32px;
+  font-size: 14px;
+  border: 1px solid #dfdfdf;
+  background: #fff;
+  border-radius: 10px;
+}
+.button{
+  overflow: visible;
+  cursor: pointer;
+  min-width: 125px;
+  height: 32px;
+  margin: 0 2px;
+  padding: 0 15px;
+  line-height: 32px;
+  font-size: 14px;
+  border: 1px solid #dfdfdf;
+  background: #fff;
+  border-radius: 10px;
+}
 .boardview {
   width: 800px;
   margin: 20px auto;
