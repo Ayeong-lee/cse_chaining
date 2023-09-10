@@ -44,6 +44,16 @@ const routes = [
         name: 'connect',
         component: () => import('../views/Contract/connect.vue')
     },
+    {
+        path: '/showNFT',
+        name: 'showNFT',
+        component: () => import('../views/Nft/Nfts_get.vue')
+    },
+    {
+        path: '/Publish',
+        name: 'Publish',
+        component: () => import('../views/Nft/Nfts_post.vue')
+    },
     // {
     //     path: '/sendCompleted',
     //     name: 'sendCompleted',
