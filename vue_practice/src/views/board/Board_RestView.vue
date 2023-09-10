@@ -33,15 +33,15 @@
       </tr>
       </tbody>
     </table>
-  </div>
-  <div class="buttons">
-    <div class="right">
-      <router-link :to="{name : 'Account', query : {boardNo: boardItem.no}}" class="button blue"><span>기부하기</span></router-link>
-      <button class="button" @click="boardListClick">목록</button>
-    </div>
-    <div class="left">
-      <button class="button" v-if="isEditable" @click="boardEditClick">수정</button>
-      <button class="button" v-if="isEditable" @click="boardDeleteClick">삭제</button>
+    <div class="buttons">
+      <div class="right">
+        <router-link :to="{name : 'Account', query : {boardNo: boardItem.no}}" class="button blue"><span>기부하기</span></router-link>
+        <button class="button" @click="boardListClick">목록</button>
+      </div>
+      <div class="left">
+        <button class="button" v-if="isEditable" @click="boardEditClick">수정</button>
+        <button class="button" v-if="isEditable" @click="boardDeleteClick">삭제</button>
+      </div>
     </div>
   </div>
 </template>

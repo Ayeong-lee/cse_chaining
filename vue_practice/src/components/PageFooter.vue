@@ -18,6 +18,12 @@ export default {
 </script>
 
 <style scoped>
+hr {
+  max-height: 10px;
+  margin: 0px 0px 0px;
+  padding: 5px;
+  background-color: #af9f8f;
+}
 footer {
   background: #949087;
   text-align: center;

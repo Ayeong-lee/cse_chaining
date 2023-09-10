@@ -2,7 +2,7 @@
   <div class="board-list">
     <div class="common-buttons">
       <div class="right">
-        <router-link :to="{name: 'boardRestWrite'}" class="button blue"><span>쓰기</span></router-link>
+        <router-link :to="{name: 'boardRestWrite'}" class="button btnBorder btnLightBlue"><span>쓰기</span></router-link>
       </div>
     </div>
     <table class="w3-table-all">
@@ -66,11 +66,36 @@ export default {
 
 <style scoped>
 
-.board {
+.board-list {
   width: 800px;
   margin: 20px auto;
 }
-
+.button {
+  display: block;
+  position: relative;
+  float: right;
+  width: 65px;
+  padding: 0;
+  margin: 10px 20px 10px 0;
+  font-weight: 100;
+  text-align: center;
+  line-height: 35px;
+  color: #FFF;
+  border-radius: 5px;
+  transition: all 0.2s ;
+  font-family: 'Single Day';
+  font-size: 20px;
+  text-decoration: none;
+}
+.btnBorder {
+  box-shadow: 0px 0px 0px 0px #01939A;
+}
+.btnLightBlue {
+  background: #5DC8CD;
+}
+.btnLightBlue.btnBorder:hover {
+  box-shadow: 0px 0px 0px 5px #01939A;
+}
 .board table {
   width: 100%;
   border-top: 2px solid #1d4281;

@@ -156,7 +156,10 @@ export default {
 </script>
 
 <style scoped>
-.board table { width:100%; border-top:2px solid #1d4281; border-spacing:0; }
+.board table {
+  width: 800px;
+  margin: 20px auto;
+  border-top:2px solid #1d4281; border-spacing:0; }
 .board table th { padding:8px 10px 10px 10px; vertical-align:middle; color:#1d4281; font-size:14px; border-bottom:1px solid #ccc; background:#f8f8f8; }
 .board table td { padding:7px 20px 9px 20px; text-align:left; vertical-align:middle; border-bottom:1px solid #ccc; font-size:14px; line-heighT:150%; }
 .board table td input, .board  table td textarea { width:100%; color:#000 !important; }
