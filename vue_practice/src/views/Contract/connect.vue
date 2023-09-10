@@ -55,7 +55,7 @@ export default {
         let result = Number(this.valance);
         result = result/Math.pow(10,18);
         result = result.toFixed(4);
-        this.contractResult = '현재 잔고는<br>' + result.toString() + 'ETH<br>입니다.';
+        this.contractResult = '현재 잔고는 ' + result.toString() + 'ETH 입니다.';
       }
     }
   }

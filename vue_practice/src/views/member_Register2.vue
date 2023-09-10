@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <h1>This is an registration page</h1>
+    <h1>회원가입</h1>
     <form class="Regform">
       <p>
         <label for="memberIdInput">성함</label>
@@ -70,6 +70,11 @@ export default {
 }
 </script>
 <style>
+
+h1 {
+  font-size: 30px;
+  font-family: 'Single Day';
+}
 .login {
   width: 800px;
   margin: 20px auto;

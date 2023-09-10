@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <h1>This is an Login page</h1>
+    <h1>로그인</h1>
     <form class="loginform">
       <p>
         <label for="memberIdInput">아이디</label>
@@ -59,6 +59,11 @@ export default {
 </script>
 
 <style scoped>
+
+h1 {
+  font-size: 30px;
+  font-family: 'Single Day';
+}
 .login {
   width: 800px;
   margin: 20px auto;

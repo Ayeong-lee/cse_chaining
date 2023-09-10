@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <h1>This is an account page</h1>
+    <h2>원하시는 기부 금액을 입력해주세요</h2>
     <form class="loginform">
       <p>
         <span for="leastamount">최소 금액</span>
@@ -106,6 +106,10 @@ export default {
 </script>
 
 <style scoped>
+h2 {
+  font-size: 30px;
+  font-family: 'Single Day';
+}
 .login {
   width: 800px;
   margin: 20px auto;
