@@ -72,20 +72,6 @@ export default {
     }
   },
   methods : {
-    getNFT(){
-      console.log('getting...');
-      axios.defaults.headers.common['Access-Token'] = this.$store.state.loginStore.accessToken;
-      axios.get("http://localhost:9000/blockchain/nfts",{
-        headers: {
-          'Authorization' : `Bearer ${this.$store.state.accessToken}`
-        }
-      }).then((res)=>{
-        console.log(res);
-        window.open(res.data.data.url, '_black');
-      }).catch((err) => {
-        console.log(err);
-      });
-    },
     getQR () {
       console.log(window.location.href)
       return window.location.href
