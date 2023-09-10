@@ -25,7 +25,7 @@
           <td>
             <router-link to="/Profile">
               <img
-                  src="https://cdn-icons-png.flaticon.com/512/3039/3039788.png"
+                  src="https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Image.png"
                   class="meta_image">
             </router-link>
           </td>
